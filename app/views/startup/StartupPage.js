@@ -9,18 +9,16 @@ import './startup.css';
 // const requireContext = require.context('resources/startup', true, /.*/);
 // requireContext.keys().map(requireContext);
 
-@inject('startup') @observer
+@inject('pub') @observer
 class StartupPage extends React.Component {
   static propTypes = {
-    startup: PropTypes.object.isRequired,
+    pub: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
   }
 
   constructor() {
     super();
     this.state = {
-      activeItem: null,
-      isNew: false,  // 是否需要新建
     };
   }
 

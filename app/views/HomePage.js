@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import {
-  Route, BrowserRouter as Router, Switch,
+  Route, BrowserRouter as Router, Link,
 } from 'react-router-dom';
 
 import StartupPage from './startup/StartupPage';
@@ -42,23 +42,23 @@ class HomePage extends Component {
 
   /* ------------------- page event ------------------- */
 
-  handleItemClick = (ev, { name }) => {
-  }
-
   /* ------------------- page render ------------------- */
 
   render() {
-    const { pub, match } = this.props;
-    const { checkPassword } = pub;
+    const { match } = this.props;
 
     return (
       <div className="container-router">
-        HomePage
+        <p>
+          <Link to="/">home</Link>
+        </p>
+        <p>
+          <Link to="/startup">startup</Link>
+        </p>
 
-        <div className={`container-router-right ${rightToggleClass}`}>
-
+        <p>HomePage</p>
+        <div>
           <Route path={`${match.path}startup`} component={StartupPage} />
-
         </div>
       </div>
     );

@@ -99,7 +99,7 @@ module.exports = {
     extractCss,
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new HtmlWebpackPlugin({ template: 'index.html', inject: false }),
+    new HtmlWebpackPlugin({ template: 'app/index.html', inject: false }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),

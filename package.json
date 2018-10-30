@@ -11,10 +11,9 @@
     "email": "yangwei020154@gmail.com"
   },
   "scripts": {
-    "start": "",
-    "start-dll": "cross-env NODE_ENV=development webpack --config webpack.dll.config.js",
-    "start-dev": "npm run start-dll && cross-env NODE_ENV=development webpack-dev-server",
-    "dist": "npm run start-dll && cross-env NODE_ENV=production webpack --config webpack.prod.config.js"
+    "build-dll": "cross-env NODE_ENV=development webpack --config webpack.dll.config.js",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --content-base app/",
+    "build": "npm run build-dll && cross-env NODE_ENV=production webpack --config webpack.prod.config.js"
   },
   "keywords": [
     "react",

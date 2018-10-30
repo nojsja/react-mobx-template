@@ -12,8 +12,6 @@ module.exports = {
       'react-router',
       'mobx',
       'mobx-react',
-      'semantic-ui-react',
-      'semantic-ui-css',
     ],
   },
   mode: 'development',
