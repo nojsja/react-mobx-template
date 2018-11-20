@@ -1,6 +1,8 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import { postData } from 'app/utils/request.js';
 
 import './startup.css';
 
@@ -23,7 +25,21 @@ class StartupPage extends React.Component {
   }
 
   componentDidMount() {
-
+    // axios
+    //   .post('http://10.0.6.203:3000/cors/test')
+    //   .then((response) => {
+    //     console.log(response.code);
+    //     console.log(response.data);
+    //     console.log(response.headers);
+    //   })
+    //   .catch((error) => {
+    //     console.log('axios error: ', error);
+    //   });
+    postData({}, '/cors/test').then((rsp) => {
+      console.log('postData: ', rsp);
+    }, (err) => {
+      console.log('postData: ', err);
+    });
   }
 
   render() {
