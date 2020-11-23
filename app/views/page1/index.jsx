@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SourceTree from 'components/SemanticTree';
+import SourceTree from 'react-treeview-semantic';
 
 const treeData = [
   {

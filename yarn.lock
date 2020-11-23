@@ -6635,10 +6635,10 @@ react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
-react-treeview-semantic@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/react-treeview-semantic/-/react-treeview-semantic-1.0.4.tgz#53d01d9756165fc8bfd278b55b898c2c20a13efb"
-  integrity sha1-U9Adl1YWX8i/0ni1W4mMLCChPvs=
+react-treeview-semantic@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-treeview-semantic/-/react-treeview-semantic-1.0.5.tgz#2faadf2b65cf1a62d9c53628a20bbe40ca00415d"
+  integrity sha512-+A3ya5g0nbU4rFaZWj5U3Kc0bexJV+KDSvhB1BC/hovoAJd1DGNyQ9iIjq8q61jY+TXlkeLrvwDibwJTDijvUQ==
   dependencies:
     prop-types "^15.6.0"
     react "^15.6.2"
