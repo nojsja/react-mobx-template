@@ -71,7 +71,7 @@ class HomePage extends Component {
     return (
       <div className="container-router">
         <p>
-          <Button onClick={this.push}>push /page1</Button>
+          <Button onClick={this.push}>redirect to SemanticTree</Button>
         </p>
         <EditableTree
           data={treeData}
