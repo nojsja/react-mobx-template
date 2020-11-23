@@ -3,9 +3,10 @@ import { Route, Router } from 'react-router-dom';
 import { Provider } from 'mobx-react';
 
 import { createHashHistory } from 'history';
-import PublicState from './stores/Public';
+import RouteWithSubRoutes from './router/RouteWithSubRoutes';
+import routes from './router/index';
 
-import HomePage from './views/HomePage';
+import PublicState from './stores/Public';
 
 /* ------------------- global history ------------------- */
 export const history = createHashHistory();
@@ -18,7 +19,9 @@ function App() {
   return (
     <Provider {...stores}>
       <Router history={history}>
-        <Route path="/" component={HomePage} />
+        <Router history={history}>
+          <RouteWithSubRoutes route={routes} />
+        </Router>
       </Router>
     </Provider>
   );

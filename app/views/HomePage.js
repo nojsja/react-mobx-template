@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import {
-  Route, BrowserRouter as Router, Link,
-} from 'react-router-dom';
+import { Button } from 'antd';
+
+import RouteWithSubRoutes from 'router/RouteWithSubRoutes';
+
+import { history } from 'app/App';
 
 import EditableTree from 'components/EditableTree/index.jsx';
-
-import { history } from '../App';
 
 const treeData = [
   {
@@ -61,17 +61,29 @@ class HomePage extends Component {
     console.log(`tree changed: `, data);
   }
 
+  push = () => {
+    history.push('/page1');
+  }
+
   render() {
-    const { match } = this.props;
+    const { match, routes } = this.props;
 
     return (
       <div className="container-router">
+        <p>
+          <Button onClick={this.push}>push /page1</Button>
+        </p>
         <EditableTree
           data={treeData}
           maxLevel={10}
           pub={this.props.pub}
           onDataChange={this.onDataChange}
         />
+         {
+            routes && routes.map((route, i) => 
+              <RouteWithSubRoutes key={`${route.path}_${i}`} route={route}/>
+            )
+          }
       </div>
     );
   }

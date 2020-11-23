@@ -25,8 +25,10 @@ module.exports = {
   resolve: {
     alias: {
       resources: path.resolve(__dirname, 'resources'),
+      app: path.resolve(__dirname, 'app'),
       utils: path.resolve(__dirname, 'app/utils'),
       components: path.resolve(__dirname, 'app/components'),
+      router: path.resolve(__dirname, 'app/router'),
     },
   },
 

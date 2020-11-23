@@ -1,10 +1,10 @@
 {
-  "name": "EditableTree",
-  "description": "a editable tree component based on Antd and powered by react.",
-  "version": "v1.0.0",
+  "name": "react-mobx-template",
+  "description": "[ react16 + mobx4 + webpack4 + react-router4 + babel7 + eslint + editorconfig ] development template.",
+  "version": "v1.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nojsja/react-nojsja.git"
+    "url": "https://github.com/nojsja/react-mobx-template.it"
   },
   "author": {
     "name": "NoJsJa",
@@ -16,15 +16,13 @@
     "dist": "npm run start-dll && cross-env NODE_ENV=production webpack --config webpack.prod.config.js"
   },
   "keywords": [
-    "electron",
-    "electronux",
     "react",
     "mobx",
     "react-router",
-    "webpack4"
+    "webpack4",
+    "template"
   ],
   "dependencies": {
-    "@babel/preset-es2015": "^7.0.0-beta.53",
     "antd": "^4.6.3",
     "@ant-design/icons": "^4.0.2",
     "axios": "^0.19.2",
