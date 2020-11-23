@@ -8,10 +8,10 @@ module.exports = {
       'prop-types',
       'react',
       'react-dom',
-      'react-router-dom',
       'react-router',
       'mobx',
       'mobx-react',
+      'antd'
     ],
   },
   mode: 'development',
@@ -25,7 +25,8 @@ module.exports = {
   resolve: {
     alias: {
       resources: path.resolve(__dirname, 'resources'),
-      app: path.resolve(__dirname, 'app'),
+      utils: path.resolve(__dirname, 'app/utils'),
+      components: path.resolve(__dirname, 'app/components'),
     },
   },
 
@@ -33,7 +34,7 @@ module.exports = {
     new webpack.DllPlugin({ // DllPlugin的name属性需要和libary保持一致
       name: '[name]_[hash]',
       path: path.join(__dirname, 'dist', '[name]-manifest.json'),
-      context: __dirname,
+      context: path.join(__dirname),
     }),
   ],
 };

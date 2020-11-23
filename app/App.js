@@ -2,13 +2,13 @@ import React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { Provider } from 'mobx-react';
 
-import createHistory from 'history/createBrowserHistory';
+import { createHashHistory } from 'history';
 import PublicState from './stores/Public';
 
 import HomePage from './views/HomePage';
 
 /* ------------------- global history ------------------- */
-export const history = createHistory();
+export const history = createHashHistory();
 
 const stores = {
   pub: new PublicState(),

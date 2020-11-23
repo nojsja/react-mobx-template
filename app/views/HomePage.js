@@ -5,14 +5,43 @@ import {
   Route, BrowserRouter as Router, Link,
 } from 'react-router-dom';
 
-import StartupPage from './startup/StartupPage';
+import EditableTree from 'components/EditableTree/index.jsx';
 
 import { history } from '../App';
 
-// 批量引入所有图片(可以指定所有图片类型)
-// const requireContext = require.context('resources/install', true, /^\.\/.*\.(jpg|png)$/);
-// const requireContext = require.context('resources/public', true, /.*/);
-// requireContext.keys().map(requireContext);
+const treeData = [
+  {
+    nodeName: '出版者',
+    id: '出版者',
+    nameEditable: true,
+    valueEditable: true,
+    nodeValue: [
+      {
+        nodeName: '出版者描述',
+        isInEdit: true,
+        nameEditable: true,
+        valueEditable: true,
+        id: '出版者描述',
+        nodeValue: [
+          {
+            nodeName: '出版者名称',
+            id: '出版者名称',
+            nameEditable: true,
+            valueEditable: true,
+            nodeValue: '出版者A',
+          },
+          {
+            nodeName: '出版者地',
+            id: '出版者地',
+            nameEditable: true,
+            valueEditable: true,
+            nodeValue: '出版地B1',
+          },
+        ],
+      }
+    ],
+  },
+];
 
 @inject('pub') @observer
 class HomePage extends Component {
@@ -26,40 +55,23 @@ class HomePage extends Component {
     super(props);
     this.state = {
     };
-    this.lastActiveItem = null;
   }
 
-  /* ------------------- react event ------------------- */
-
-
-  componentDidMount() {
-
+  onDataChange = (data) => {
+    console.log(`tree changed: `, data);
   }
-
-  componentWillUnmount() {
-
-  }
-
-  /* ------------------- page event ------------------- */
-
-  /* ------------------- page render ------------------- */
 
   render() {
     const { match } = this.props;
 
     return (
       <div className="container-router">
-        <p>
-          <Link to="/">home</Link>
-        </p>
-        <p>
-          <Link to="/startup">startup</Link>
-        </p>
-
-        <p>HomePage</p>
-        <div>
-          <Route path={`${match.path}startup`} component={StartupPage} />
-        </div>
+        <EditableTree
+          data={treeData}
+          maxLevel={10}
+          pub={this.props.pub}
+          onDataChange={this.onDataChange}
+        />
       </div>
     );
   }

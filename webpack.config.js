@@ -1,22 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-// 拆分样式文件
-const extractSass = new ExtractTextPlugin({
-  filename: 'style.scss.css',
-});
-const extractCss = new ExtractTextPlugin({
-  filename: 'style.css',
-});
 
 module.exports = {
   devtool: 'source-map',
   entry: [
     'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
-    './app/index',
+    './index.js',
   ],
   mode: 'development',
   output: {
@@ -27,34 +16,51 @@ module.exports = {
   resolve: {
     alias: {
       resources: path.resolve(__dirname, 'resources'),
-      app: path.resolve(__dirname, 'app'),
+      utils: path.resolve(__dirname, 'app/utils'),
+      components: path.resolve(__dirname, 'app/components'),
     },
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: ['babel-loader?cacheDirectory=true'],
+        test: /\.m?js|\.jsx$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              '@babel/preset-env',
+              '@babel/preset-react',
+            ],
+            plugins: [
+              ["@babel/plugin-proposal-decorators", { "legacy": true }],
+              ["@babel/plugin-proposal-class-properties", {"loose": true}],
+              "@babel/plugin-proposal-function-sent",
+              "@babel/plugin-proposal-export-namespace-from",
+              "@babel/plugin-proposal-numeric-separator",
+              "@babel/plugin-proposal-throw-expressions",
+              "react-hot-loader/babel"
+            ]
+          }
+        }
       },
       {
         test: /\.css$/,
-        use: extractCss.extract({
-          fallback: 'style-loader',
-          use: 'css-loader',
-          publicPath: '/',
-        }),
+        use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.scss$/,
-        use: extractSass.extract({
-          use: [{
-            loader: 'css-loader',
-          }, {
-            loader: 'sass-loader',
-          }],
-          fallback: 'style-loader', // 在开发环境使用 style-loader
-          publicPath: '/',
-        }),
+        test: /\.less$/,
+        use: [
+          {
+            loader: 'style-loader', // 从 JS 中创建样式节点
+          },
+          {
+            loader: 'css-loader', // 转化 CSS 为 CommonJS
+          },
+          {
+            loader: 'less-loader', // 编译 Less 为 CSS
+          },
+        ],
       },
       {
         test: /\.html$/,
@@ -63,7 +69,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpg|gif|svg|ico|woff|eot|ttf|woff2)$/,
+        test: /\.(png|jpg|gif|svg|ico|woff|eot|ttf|woff2|icns)$/,
         use: [
           {
             loader: 'file-loader',
@@ -77,8 +83,6 @@ module.exports = {
   },
 
   plugins: [
-    extractSass,
-    extractCss,
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
@@ -87,7 +91,9 @@ module.exports = {
   devServer: {
     host: 'localhost',
     port: 3000,
+    compress: true,
+    contentBase: path.join(__dirname, 'dist'),
     historyApiFallback: true,
     hot: true,
-  },
+  }
 };
