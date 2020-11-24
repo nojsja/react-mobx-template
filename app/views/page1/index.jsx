@@ -3,31 +3,31 @@ import SourceTree from 'react-treeview-semantic';
 
 const treeData = [
   {
-    name: 'index',
+    name: 'level1',
     flag: 'base',
     children: [
-      {name: 'solej'},
+      { name: 'level2-1' },
       {
-        name: 'sdfds',
+        name: 'level2-2',
         children: [
-          {name: 'exits', children: [{name: 'lalal', flag: 'table'}]},
-          {name: '_default_', flag: 'file'},
-          {name: 'exits2', children: [{name: 'lalal2', flag: 'table'}]},
+          { name: 'level3-1', children: [{ name: 'level4-1', flag: 'table'}] },
+          { name: 'level3-2', flag: 'file' },
+          { name: 'level3-3', children: [{ name: 'level4-2', flag: 'table' }] },
         ]
       }
     ]
   },
 
   {
-    name: '23qe2jewrjsdf-sdfjksdfsjdf-sdfkjsdfjsd',
+    name: 'long-name-long-name-long-name-long-name-long-name-',
     flag: 'base',
     children: [
-      {name: 'sdf'},
+      { name: 'level2-1' },
       {
-        name: 'dkdkdkd',
+        name: 'level2-2',
         children: [
-          {name: 'cayman-sdfjksdfjkdk-sdfsdfkdkd-dk',flag: 'table'},
-          {name: '_default_', flag: 'table'}
+          { name: 'level3-1',flag: 'file' },
+          { name: 'level3-2', flag: 'file' }
         ]
       }
     ]
