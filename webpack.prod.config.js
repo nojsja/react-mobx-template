@@ -15,13 +15,14 @@ const extractCss = new ExtractTextPlugin({
 // 拆分静态库
 const dllRefPlugin = new webpack.DllReferencePlugin({
   context: __dirname,
-  manifest: require(path.resolve('dist/vendor-manifest.json')),
+  manifest: require(path.resolve('./vendor-manifest.json')),
 });
 
 module.exports = {
   entry: [
     './index',
   ],
+  // devtool: 'hidden-source-map',
   mode: 'production',
   output: {
     filename: 'bundle.js',
@@ -29,6 +30,7 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
+    modules: [path.resolve(__dirname, 'node_modules')],
     alias: {
       resources: path.resolve(__dirname, 'resources'),
       app: path.resolve(__dirname, 'app'),
@@ -43,7 +45,7 @@ module.exports = {
         test: /\.m?js|\.jsx$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: 'babel-loader',
+          loader: 'babel-loader?cacheDirectory',
           options: {
             presets: [
               '@babel/preset-env',
@@ -101,17 +103,19 @@ module.exports = {
   },
 
   plugins: [
-    dllRefPlugin,
-    extractCss,
-    extractLess,
-    new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new HtmlWebpackPlugin({ template: 'index.html', inject: false }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
       },
     }),
+    dllRefPlugin,
+    extractCss,
+    extractLess,
+    new webpack.NamedModulesPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new HtmlWebpackPlugin({
+      template: 'index.html',
+      inject: false,
+    }),
   ],
-  target: 'electron-renderer',
 };

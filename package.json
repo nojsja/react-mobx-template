@@ -6,14 +6,16 @@
     "type": "git",
     "url": "https://github.com/nojsja/react-mobx-template.it"
   },
+  "license": "MIT",
   "author": {
     "name": "NoJsJa",
     "email": "yangwei020154@gmail.com"
   },
+  "comments": "before start dist resources, confirm you have dll static library!",
   "scripts": {
-    "start": "npm run start-dll && cross-env NODE_ENV=development webpack serve",
-    "start-dll": "cross-env NODE_ENV=development webpack --config webpack.dll.config.js",
-    "dist": "npm run start-dll && cross-env NODE_ENV=production webpack --config webpack.prod.config.js"
+    "dll": "webpack --config webpack.dll.config.js",
+    "start": "cross-env NODE_ENV=development webpack serve",
+    "dist": "webpack --config webpack.prod.config.js"
   },
   "keywords": [
     "react",
@@ -33,7 +35,6 @@
     "qs": "^6.9.3",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
-    "react-hot-loader": "^4.13.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-treeview-semantic": "^1.0.5",

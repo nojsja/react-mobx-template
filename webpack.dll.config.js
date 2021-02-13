@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  devtool: 'source-map',
+  // devtool: 'source-map',
   entry: {
     vendor: [
       'prop-types',
@@ -14,7 +14,7 @@ module.exports = {
       'antd'
     ],
   },
-  mode: 'development',
+  mode: 'production',
   output: {
     // filename: 'bundle.js',
     filename: 'dll_[name].js',
@@ -23,6 +23,7 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
+    modules: [path.resolve(__dirname, 'node_modules')],
     alias: {
       resources: path.resolve(__dirname, 'resources'),
       app: path.resolve(__dirname, 'app'),
@@ -33,9 +34,14 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+      },
+    }),
     new webpack.DllPlugin({ // DllPlugin的name属性需要和libary保持一致
       name: '[name]_[hash]',
-      path: path.join(__dirname, 'dist', '[name]-manifest.json'),
+      path: path.join(__dirname, '[name]-manifest.json'),
       context: path.join(__dirname),
     }),
   ],

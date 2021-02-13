@@ -2,9 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'cheap-module-eval-source-map',
   entry: [
-    'react-hot-loader/patch',
     './index.js',
   ],
   mode: 'development',
@@ -14,6 +13,7 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
+    modules: [path.resolve(__dirname, 'node_modules')],
     alias: {
       resources: path.resolve(__dirname, 'resources'),
       app: path.resolve(__dirname, 'app'),
@@ -28,7 +28,7 @@ module.exports = {
         test: /\.m?js|\.jsx$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: 'babel-loader',
+          loader: 'babel-loader?cacheDirectory',
           options: {
             presets: [
               '@babel/preset-env',
@@ -41,7 +41,6 @@ module.exports = {
               "@babel/plugin-proposal-export-namespace-from",
               "@babel/plugin-proposal-numeric-separator",
               "@babel/plugin-proposal-throw-expressions",
-              "react-hot-loader/babel"
             ]
           }
         }
@@ -85,6 +84,11 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development'),
+      },
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
@@ -97,5 +101,7 @@ module.exports = {
     contentBase: '.',
     historyApiFallback: true,
     hot: true,
+    inline: true,
+    liveReload: false
   }
 };
