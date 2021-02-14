@@ -16,8 +16,7 @@ module.exports = {
   },
   mode: 'production',
   output: {
-    // filename: 'bundle.js',
-    filename: 'dll_[name].js',
+    filename: 'dll_[name]_[hash:8].js',
     library: '[name]_[hash]', // 将此dll包暴露到window上，给app.js调用
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',

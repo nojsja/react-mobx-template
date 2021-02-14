@@ -2,14 +2,18 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const os = require('os');
+const HappyPack = require('happypack');
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
+const manifest = require('./vendor-manifest.json')
 
 // 拆分样式文件
 const extractLess = new ExtractTextPlugin({
-  filename: 'style.less.css',
+  filename: 'style_[hash:8].css',
 });
 
 const extractCss = new ExtractTextPlugin({
-  filename: 'style.css',
+  filename: 'style.less_[hash:8].css',
 });
 
 // 拆分静态库
@@ -25,13 +29,14 @@ module.exports = {
   // devtool: 'hidden-source-map',
   mode: 'production',
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle_[hash:8].js',
     path: path.resolve(__dirname, 'dist/'),
-    publicPath: '/',
+    publicPath: '',
   },
   resolve: {
     modules: [path.resolve(__dirname, 'node_modules')],
     alias: {
+      // dir
       resources: path.resolve(__dirname, 'resources'),
       app: path.resolve(__dirname, 'app'),
       utils: path.resolve(__dirname, 'app/utils'),
@@ -40,33 +45,18 @@ module.exports = {
     },
   },
   module: {
+    noParse:[/jquery/],
     rules: [
       {
         test: /\.m?js|\.jsx$/,
         exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader?cacheDirectory',
-          options: {
-            presets: [
-              '@babel/preset-env',
-              '@babel/preset-react',
-            ],
-            plugins: [
-              ["@babel/plugin-proposal-decorators", { "legacy": true }],
-              ["@babel/plugin-proposal-class-properties", {"loose": true}],
-              "@babel/plugin-proposal-function-sent",
-              "@babel/plugin-proposal-export-namespace-from",
-              "@babel/plugin-proposal-numeric-separator",
-              "@babel/plugin-proposal-throw-expressions"
-            ]
-          }
-        }
+        use: ['happypack/loader?id=babel']
       },
       {
         test: /\.css$/,
         use: extractCss.extract({
           fallback: 'style-loader',
-          use: 'css-loader',
+          use: { loader: 'css-loader', options: { minimize: true }},
           publicPath: path.join(__dirname, 'dist/'),
         }),
       },
@@ -75,6 +65,7 @@ module.exports = {
         use: extractLess.extract({
           use: [{
             loader: 'css-loader',
+            options: { minimize: true }
           }, {
             loader: 'less-loader',
           }],
@@ -89,15 +80,8 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg|ico|woff|eot|ttf|woff2|icns)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[path][name].[ext]',
-            },
-          },
-        ],
+        test: /\.(png|jpg|gif|svg|ico|woff|eot|ttf|woff2|icns)$/,
+        use: ['happypack/loader?id=file'],
       },
     ],
   },
@@ -109,13 +93,51 @@ module.exports = {
       },
     }),
     dllRefPlugin,
+    new HappyPack({
+      id: 'babel',
+      threadPool: happyThreadPool,
+      loaders: [{
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true,
+          presets: [
+            '@babel/preset-env',
+            '@babel/preset-react',
+          ],
+          plugins: [
+            ["@babel/plugin-proposal-decorators", { "legacy": true }],
+            ["@babel/plugin-proposal-class-properties", {"loose": true}],
+            "@babel/plugin-proposal-function-sent",
+            "@babel/plugin-proposal-export-namespace-from",
+            "@babel/plugin-proposal-numeric-separator",
+            "@babel/plugin-proposal-throw-expressions",
+          ]
+        }
+      }],
+    }),
+    new HappyPack({
+      id: 'file',
+      threadPool: happyThreadPool,
+      loaders: [
+        {
+          loader: 'file-loader',
+          options: {
+            name: '[path][name].[ext]',
+          },
+        },
+      ],
+    }),
     extractCss,
     extractLess,
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
-      template: 'index.html',
-      inject: false,
+      filename: 'index.html',
+      template: 'template.ejs',
+      inject: 'body',
+      publicPath: './',
+      vendor:  `dll_${manifest.name}.js`,
+      minify: false
     }),
   ],
 };
