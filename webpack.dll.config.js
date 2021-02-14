@@ -17,7 +17,7 @@ module.exports = {
   mode: 'production',
   output: {
     filename: 'dll_[name]_[hash:8].js',
-    library: '[name]_[hash]', // 将此dll包暴露到window上，给app.js调用
+    library: '[name]_[hash:8]', // 将此dll包暴露到window上，给app.js调用
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
@@ -39,7 +39,7 @@ module.exports = {
       },
     }),
     new webpack.DllPlugin({ // DllPlugin的name属性需要和libary保持一致
-      name: '[name]_[hash]',
+      name: '[name]_[hash:8]',
       path: path.join(__dirname, '[name]-manifest.json'),
       context: path.join(__dirname),
     }),
