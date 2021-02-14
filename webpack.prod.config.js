@@ -81,7 +81,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif|svg|ico|woff|eot|ttf|woff2|icns)$/,
-        use: ['happypack/loader?id=file'],
+        use: ['happypack/loader?id=url'],
       },
     ],
   },
@@ -96,33 +96,17 @@ module.exports = {
     new HappyPack({
       id: 'babel',
       threadPool: happyThreadPool,
-      loaders: [{
-        loader: 'babel-loader',
-        options: {
-          cacheDirectory: true,
-          presets: [
-            '@babel/preset-env',
-            '@babel/preset-react',
-          ],
-          plugins: [
-            ["@babel/plugin-proposal-decorators", { "legacy": true }],
-            ["@babel/plugin-proposal-class-properties", {"loose": true}],
-            "@babel/plugin-proposal-function-sent",
-            "@babel/plugin-proposal-export-namespace-from",
-            "@babel/plugin-proposal-numeric-separator",
-            "@babel/plugin-proposal-throw-expressions",
-          ]
-        }
-      }],
+      loaders: ['babel-loader?cacheDirectory'],
     }),
     new HappyPack({
-      id: 'file',
+      id: 'url',
       threadPool: happyThreadPool,
       loaders: [
         {
-          loader: 'file-loader',
+          loader: 'url-loader',
           options: {
-            name: '[path][name].[ext]',
+            limit: 50,
+            outputPath: 'assets/',
           },
         },
       ],
